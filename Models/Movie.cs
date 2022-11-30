@@ -11,8 +11,7 @@ public class Movie
     [Required]
     public string Title { get; set; } = string.Empty;
 
-    // [Display(Name = "Release Date")]
-    [DataType(DataType.Date)]
+    [Display(Name = "Release Date"), DataType(DataType.Date)]
     public DateTime ReleaseDate { get; set; }
 
     [RegularExpression(@"^[A-Z]+[a-zA-Z\s]*$")]
