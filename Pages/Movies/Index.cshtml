@@ -1,23 +1,28 @@
 @page
 @model RazorPagesMovie.Pages.Movies.IndexModel
 
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResource> SharedLocalizer
+
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = Localizer["Index"];
 }
 
-<h1>Index</h1>
+<h1>@Localizer["Index"]</h1>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="Create">@SharedLocalizer["Create New"]</a>
 </p>
 
 <form>
     <p>
         <select asp-for="MovieGenre" asp-items="Model.Genres">
-            <option value="">All</option>
+            <option value="">@SharedLocalizer["All"]</option>
         </select>
-        Title: <input type="text" asp-for="SearchString" />
-        <input type="submit" value="Filter" />
+        @Html.DisplayNameFor(model => model.Movie[0].Title): <input type="text" asp-for="SearchString" />
+        <input type="submit" value="@SharedLocalizer["Filter"]" />
     </p>
 </form>
 
@@ -61,9 +66,9 @@
                 @Html.DisplayFor(modelItem => item.Rating)
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-page="./Edit" asp-route-id="@item.Id">@SharedLocalizer["Edit"]</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">@SharedLocalizer["Details"]</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">@SharedLocalizer["Delete"]</a>
             </td>
         </tr>
 }

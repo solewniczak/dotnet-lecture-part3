@@ -1,3 +1,5 @@
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using RazorPagesMovie.Models;
@@ -5,12 +7,27 @@ using RazorPagesMovie.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorPages();
+
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+builder.Services
+    .AddRazorPages()
+    .AddViewLocalization()
+    .AddDataAnnotationsLocalization();
+
 builder.Services.AddDbContext<RazorPagesMovieContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("RazorPagesMovieContext") ?? throw new InvalidOperationException("Connection string 'RazorPagesMovieContext' not found.")));
 
 var app = builder.Build();
 
+//about:config intl.accept_languages
+RequestLocalizationOptions localizationOptions = new RequestLocalizationOptions
+{
+    SupportedCultures = new List<CultureInfo> { new CultureInfo("en-US"), new CultureInfo("en-GB"), new CultureInfo("pl-PL"), new CultureInfo("pl") },
+    SupportedUICultures = new List<CultureInfo> { new CultureInfo("en-US"), new CultureInfo("en-GB"), new CultureInfo("pl-PL"), new CultureInfo("pl") },
+    DefaultRequestCulture = new RequestCulture("pl-PL")
+};
+app.UseRequestLocalization(localizationOptions);
 
 using (var scope = app.Services.CreateScope())
 {
